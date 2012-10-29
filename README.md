@@ -21,88 +21,42 @@ Use `go get github.com/AlanQuatermain/go-gcm` to install, and then import it usi
 
 Generated documentation for the package's small API can be seen below.
 
-<!--
-	Copyright 2009 The Go Authors. All rights reserved.
-	Use of this source code is governed by a BSD-style
-	license that can be found in the LICENSE file.
--->
+### Package
 
-	
-<div id="short-nav">
-	<dl>
-		<dd>
-			<code>import gcm "github.com/AlanQuatermain/go-gcm"</code>
-		</dd>
-	</dl>
-	<dl>
-		<dd>
-			<a href="#overview" class="overviewLink">Overview</a>
-		</dd>
-		<dd>
-			<a href="#index">Index</a>
-		</dd>
-	</dl>
-</div><!-- The package's Name is printed as title by the top-level template -->
-<div id="overview" class="toggleVisible">
-	<div class="collapsed">
-		<h2 class="toggleButton" title="Click to show Overview section">
-			Overview ▹
-		</h2>
-	</div>
-	<div class="expanded">
-		<h2 class="toggleButton" title="Click to hide Overview section">
-			Overview ▾
-		</h2>
-		<p>
-			The GCM package provides an implementation of the Galois/Counter Mode of operation for symmetric block ciphers. It provides authenticated encryption, meaning that it both encrypts content and generates an authentication tag similar to an HMAC operation.
-		</p>
-	</div>
-</div>
-<h2 id="index">
-	Index
-</h2><!-- Table of contents for API; must be named manual-nav to turn off auto nav. -->
-<div id="manual-nav">
-	<dl>
-		<dd>
-			<a href="#GaloisCounterMode">type GaloisCounterMode</a>
-		</dd>
-		<dd>
-			&nbsp; &nbsp; <a href="#NewGCM">func NewGCM(b cipher.Block, tagSizeInBits int, iv []byte) (GaloisCounterMode, error)</a>
-		</dd>
-	</dl>
-	<h4>
-		Package files
-	</h4>
-	<p>
-		<span style="font-size:90%"><a href="/target/gcm.go">gcm.go</a></span>
-	</p>
-	<h2 id="GaloisCounterMode">
-		type <a href="/target/gcm.go?s=654:1311#L12">GaloisCounterMode</a>
-	</h2>
-	<pre>
-type GaloisCounterMode interface {
-    <span class="comment">// BlockSize returns the mode's block size.</span>
-    BlockSize() int
-    <span class="comment">// Encrypts plaintext along with some additional authenticated data, returning</span>
-    <span class="comment">// the encrypted output along with an authentication tag.</span>
-    Encrypt(src io.Reader, aad []byte) (enc, tag []byte)
-    <span class="comment">// Decrypts data encoded by Encrypt(). Input also requires the additional</span>
-    <span class="comment">// authenticated data passed to Encrypt() and the authentication tag returned</span>
-    <span class="comment">// by that function. Internally the tag is verified before any attempt is made</span>
-    <span class="comment">// do actually decrypt the input ciphertext.</span>
-    Decrypt(ciphertext, aad, tag []byte) ([]byte, error)
-}
-</pre>
-	<p>
-		This cryptography mode encompasses both encryption and authentication of data. Due to its differing inputs and outputs, it doesn't conform to the cipher.Cipher interface, instead providing separate Encrypt() and Decrypt() methods.
-	</p>
-	<h3 id="NewGCM">
-		func <a href="/target/gcm.go?s=1754:1838#L45">NewGCM</a>
-	</h3>
-	<pre>
-func NewGCM(b cipher.Block, tagSizeInBits int, iv []byte) (GaloisCounterMode, error)
-</pre>
-	<p>
-		Creates a new Galois/Counter Mode for a given block cipher. The iv parameter is required, but a tagSizeInBits of zero can be supplied, in which case the default tag size of 128 bits will be used,
-	</p>
-</div>
+	package gcm
+	    import "gcm"
+
+The GCM package provides an implementation of the Galois/Counter Mode of
+operation for symmetric block ciphers. It provides authenticated
+encryption, meaning that it both encrypts content and generates an
+authentication tag similar to an HMAC operation.
+
+### Types
+
+	type GaloisCounterMode interface {
+	    // BlockSize returns the mode's block size.
+	    BlockSize() int
+
+	    // Encrypts plaintext along with some additional authenticated data, returning
+	    // the encrypted output along with an authentication tag.
+	    Encrypt(src io.Reader, aad []byte) (enc, tag []byte)
+
+	    // Decrypts data encoded by Encrypt(). Input also requires the additional
+	    // authenticated data passed to Encrypt() and the authentication tag returned
+	    // by that function. Internally the tag is verified before any attempt is made
+	    // do actually decrypt the input ciphertext.
+	    Decrypt(ciphertext, aad, tag []byte) ([]byte, error)
+	}
+
+This cryptography mode encompasses both encryption and authentication of
+data. Due to its differing inputs and outputs, it doesn't conform to the
+cipher.Cipher interface, instead providing separate Encrypt() and
+Decrypt() methods.
+
+	func NewGCM(b cipher.Block, tagSizeInBits int, iv []byte) (GaloisCounterMode, error)
+
+Creates a new Galois/Counter Mode for a given block cipher. The iv
+parameter is required, but a tagSizeInBits of zero can be supplied, in
+which case the default tag size of 128 bits will be used.
+
+

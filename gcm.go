@@ -51,7 +51,7 @@ func dup(p []byte) []byte {
 
 // Creates a new Galois/Counter Mode for a given block cipher. The iv parameter is
 // required, but a tagSizeInBits of zero can be supplied, in which case the default tag
-// size of 128 bits will be used,
+// size of 128 bits will be used.
 func NewGCM(b cipher.Block, tagSizeInBits int, iv []byte) (GaloisCounterMode, error) {
     if b.BlockSize() != 16 && b.BlockSize() != 18 && b.BlockSize() != 24 {
         return nil, errors.New("Block cipher MUST have a 128-bit block size")
